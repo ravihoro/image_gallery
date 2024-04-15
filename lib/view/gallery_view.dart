@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:image_gallery/controllers/image_controller.dart';
 import 'package:image_gallery/view/image_view.dart';
@@ -43,7 +44,6 @@ class GalleryView extends StatelessWidget {
       body: Obx(
         () {
           var imageController = Get.find<ImageController>();
-
           final isLoading = imageController.isLoading.value;
           final showBottomLoader = imageController.showBottomLoader.value;
           final images = imageController.images;
@@ -57,17 +57,16 @@ class GalleryView extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: GridView.builder(
+                    child: MasonryGridView.count(
                       controller: _scrollController,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: numColumns,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 1,
-                      ),
+                      crossAxisCount: numColumns,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
                       itemCount: images.length,
+                      shrinkWrap: true,
                       itemBuilder: (_, index) {
                         var image = images[index];
+
                         return ImageContainerPreview(
                           image: image,
                           onTap: () {
@@ -82,6 +81,31 @@ class GalleryView extends StatelessWidget {
                         );
                       },
                     ),
+                    // child: GridView.builder(
+                    //   controller: _scrollController,
+                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //     crossAxisCount: numColumns,
+                    //     crossAxisSpacing: 5,
+                    //     mainAxisSpacing: 5,
+                    //     childAspectRatio: 1,
+                    //   ),
+                    //   itemCount: images.length,
+                    //   itemBuilder: (_, index) {
+                    //     var image = images[index];
+                    //     return ImageContainerPreview(
+                    //       image: image,
+                    //       onTap: () {
+                    //         Navigator.of(context).push(
+                    //           MaterialPageRoute(
+                    //             builder: (_) => ImageView(
+                    //               image: image,
+                    //             ),
+                    //           ),
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    // ),
                   ),
                 ),
                 showBottomLoader
