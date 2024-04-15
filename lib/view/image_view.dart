@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery/model/image_model.dart';
@@ -12,18 +13,31 @@ class ImageView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Hero(
-              tag: image.id,
-              child: CachedNetworkImage(
-                imageUrl: image.largeImageUrl,
-                placeholder: (context, url) => Container(
-                  color: Colors.grey[200],
+            Stack(
+              children: [
+                ImageFiltered(
+                  imageFilter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+                  child: CachedNetworkImage(
+                    imageUrl: image.largeImageUrl,
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
-                errorWidget: (context, url, error) => const Icon(
-                  Icons.error,
+                Hero(
+                  tag: image.id,
+                  child: CachedNetworkImage(
+                    imageUrl: image.largeImageUrl,
+                    fit: BoxFit.fitHeight,
+                    placeholder: (context, url) => Container(
+                      color: Colors.grey[200],
+                    ),
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.error,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
