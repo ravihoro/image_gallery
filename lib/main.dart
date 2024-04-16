@@ -7,7 +7,7 @@ import 'package:image_gallery/features/gallery_view/presentation/view/gallery_vi
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DependencyInjection.init();
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: "dotenv");
   runApp(const MyApp());
 }
 
