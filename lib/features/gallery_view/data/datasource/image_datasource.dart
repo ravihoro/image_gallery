@@ -17,7 +17,7 @@ class ImageDatasourceImpl implements ImageDatasource {
   Future<List<ImageEntity>> fetchImages(int page) async {
     final http.Response response = await httpClient.get(
       Uri.parse(
-        "${StringConstants.url}?key=${StringConstants.key}&image_type=${StringConstants.imageType}&per_page=20&page=$page&orientation=vertical",
+        "${StringConstants.url}?key=${StringConstants.key}&image_type=${StringConstants.imageType}&per_page=20&page=$page",
       ),
     );
     if (response.statusCode == 200) {

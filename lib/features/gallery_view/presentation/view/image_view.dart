@@ -12,34 +12,42 @@ class ImageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              children: [
-                ImageFiltered(
-                  imageFilter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+        body: Container(
+          alignment: Alignment.center,
+          //color: Colors.blue,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                //color: Colors.red,
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(
+                    sigmaX: 10,
+                    sigmaY: 10,
+                  ),
                   child: CachedNetworkImage(
                     imageUrl: image.largeImageUrl,
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
-                Hero(
-                  tag: image.id,
-                  child: CachedNetworkImage(
-                    imageUrl: image.largeImageUrl,
-                    fit: BoxFit.fitHeight,
-                    placeholder: (context, url) => Container(
-                      color: Colors.grey[200],
-                    ),
-                    errorWidget: (context, url, error) => const Icon(
-                      Icons.error,
-                    ),
+              ),
+              Hero(
+                tag: image.id,
+                child: CachedNetworkImage(
+                  imageUrl: image.largeImageUrl,
+                  fit: BoxFit.fitHeight,
+                  placeholder: (context, url) => Container(
+                    color: Colors.grey[200],
+                  ),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.error,
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

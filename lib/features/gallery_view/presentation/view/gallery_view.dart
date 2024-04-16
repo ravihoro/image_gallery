@@ -7,25 +7,29 @@ import 'package:image_gallery/features/gallery_view/presentation/view/image_view
 
 import 'package:image_gallery/features/gallery_view/presentation/widgets/image_container_preview.dart';
 
-class GalleryView extends StatelessWidget {
-  static const double itemAspectRatio = 1.0;
-
-  static const double minItemWidth = 120.0;
-
+class GalleryView extends StatefulWidget {
   const GalleryView({super.key});
+
+  @override
+  State<GalleryView> createState() => _GalleryViewState();
+}
+
+class _GalleryViewState extends State<GalleryView> {
+  final ImageController imageController = Get.find<ImageController>();
+  final ScrollController _scrollController = ScrollController();
+  double minItemWidth = 120.0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    imageController.fetchImages();
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final numColumns = (screenWidth / minItemWidth).floor();
-    final ImageController imageController = Get.find<ImageController>();
-    final ScrollController _scrollController = ScrollController();
-
-    // Load images when the screen is initialized
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      log("fetching imagesss");
-      imageController.fetchImages();
-    });
 
     void _scrollListener() {
       if (_scrollController.offset >=
@@ -44,14 +48,19 @@ class GalleryView extends StatelessWidget {
       // Determine device type based on screen width
       if (screenWidth < 600) {
         // Phone
+        minItemWidth = 120;
         return 2; // Adjust this according to your preference
-      } else if (screenWidth < 1200) {
-        // Tablet
-        return 4; // Adjust this according to your preference
       } else {
-        // Desktop
-        return 6; // Adjust this according to your preference
+        minItemWidth = 300;
+        return (screenWidth / minItemWidth).floor();
       }
+      // else if (screenWidth < 1200) {
+      //   // Tablet
+      //   return 4; // Adjust this according to your preference
+      // } else {
+      //   // Desktop
+      //   return 6; // Adjust this according to your preference
+      // }
     }
 
     return Scaffold(
@@ -73,6 +82,7 @@ class GalleryView extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
+
                     child: MasonryGridView.count(
                       controller: _scrollController,
                       crossAxisCount: _getColumnsCount(context),

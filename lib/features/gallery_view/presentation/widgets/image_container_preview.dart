@@ -19,18 +19,20 @@ class ImageContainerPreview extends StatelessWidget {
       fontSize: 12,
     );
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         InkWell(
           onTap: onTap,
           child: Container(
             clipBehavior: Clip.antiAlias,
+            padding: const EdgeInsets.all(0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
             child: Hero(
               tag: image.id,
               child: CachedNetworkImage(
-                fit: BoxFit.fill,
+                fit: BoxFit.fitWidth,
                 imageUrl: image.previewUrl,
                 placeholder: (context, url) => Container(
                   color: Colors.grey[200],
