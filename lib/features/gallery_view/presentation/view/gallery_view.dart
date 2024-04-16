@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -21,48 +20,39 @@ class _GalleryViewState extends State<GalleryView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     imageController.fetchImages();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      imageController.fetchImages();
+    }
+  }
+
+  int _getColumnsCount(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    if (screenWidth < 600) {
+      minItemWidth = 120;
+      return 2;
+    } else {
+      minItemWidth = 300;
+      return (screenWidth / minItemWidth).floor();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final numColumns = (screenWidth / minItemWidth).floor();
-
-    void _scrollListener() {
-      if (_scrollController.offset >=
-              _scrollController.position.maxScrollExtent &&
-          !_scrollController.position.outOfRange) {
-        // Reached the bottom
-        imageController.fetchImages(); // Call your API here
-      }
-    }
-
-    _scrollController.addListener(_scrollListener);
-
-    int _getColumnsCount(BuildContext context) {
-      double screenWidth = MediaQuery.of(context).size.width;
-
-      // Determine device type based on screen width
-      if (screenWidth < 600) {
-        // Phone
-        minItemWidth = 120;
-        return 2; // Adjust this according to your preference
-      } else {
-        minItemWidth = 300;
-        return (screenWidth / minItemWidth).floor();
-      }
-      // else if (screenWidth < 1200) {
-      //   // Tablet
-      //   return 4; // Adjust this according to your preference
-      // } else {
-      //   // Desktop
-      //   return 6; // Adjust this according to your preference
-      // }
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Image Gallery"),
@@ -79,61 +69,41 @@ class _GalleryViewState extends State<GalleryView> {
           } else {
             return Column(
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                images.isEmpty
+                    ? const Expanded(
+                        child: Center(
+                          child: Text('Failed to load images'),
+                        ),
+                      )
+                    : Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: MasonryGridView.count(
+                            controller: _scrollController,
+                            crossAxisCount: _getColumnsCount(context),
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20,
+                            itemCount: images.length,
+                            shrinkWrap: true,
+                            itemBuilder: (_, index) {
+                              var image = images[index];
 
-                    child: MasonryGridView.count(
-                      controller: _scrollController,
-                      crossAxisCount: _getColumnsCount(context),
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      itemCount: images.length,
-                      shrinkWrap: true,
-                      itemBuilder: (_, index) {
-                        var image = images[index];
-
-                        return ImageContainerPreview(
-                          image: image,
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => ImageView(
-                                  image: image,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    // child: GridView.builder(
-                    //   controller: _scrollController,
-                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: numColumns,
-                    //     crossAxisSpacing: 5,
-                    //     mainAxisSpacing: 5,
-                    //     childAspectRatio: 1,
-                    //   ),
-                    //   itemCount: images.length,
-                    //   itemBuilder: (_, index) {
-                    //     var image = images[index];
-                    //     return ImageContainerPreview(
-                    //       image: image,
-                    //       onTap: () {
-                    //         Navigator.of(context).push(
-                    //           MaterialPageRoute(
-                    //             builder: (_) => ImageView(
-                    //               image: image,
-                    //             ),
-                    //           ),
-                    //         );
-                    //       },
-                    //     );
-                    //   },
-                    // ),
-                  ),
-                ),
+                              return ImageContainerPreview(
+                                image: image,
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => ImageView(
+                                        image: image,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
                 showBottomLoader
                     ? const CircularProgressIndicator()
                     : Container(),

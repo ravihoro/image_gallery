@@ -32,8 +32,9 @@ class ImageContainerPreview extends StatelessWidget {
             child: Hero(
               tag: image.id,
               child: CachedNetworkImage(
+                fadeInDuration: const Duration(milliseconds: 500),
                 fit: BoxFit.fitWidth,
-                imageUrl: image.previewUrl,
+                imageUrl: image.largeImageUrl,
                 placeholder: (context, url) => Container(
                   color: Colors.grey[200],
                 ),
