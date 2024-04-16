@@ -2,9 +2,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:image_gallery/controllers/image_controller.dart';
-import 'package:image_gallery/view/image_view.dart';
-import 'package:image_gallery/widgets/image_container_preview.dart';
+import 'package:image_gallery/features/gallery_view/presentation/controller/image_controller.dart';
+import 'package:image_gallery/features/gallery_view/presentation/view/image_view.dart';
+
+import 'package:image_gallery/features/gallery_view/presentation/widgets/image_container_preview.dart';
 
 class GalleryView extends StatelessWidget {
   static const double itemAspectRatio = 1.0;
@@ -43,7 +44,6 @@ class GalleryView extends StatelessWidget {
       ),
       body: Obx(
         () {
-          var imageController = Get.find<ImageController>();
           final isLoading = imageController.isLoading.value;
           final showBottomLoader = imageController.showBottomLoader.value;
           final images = imageController.images;

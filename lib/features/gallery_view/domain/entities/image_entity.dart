@@ -1,31 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class ImageModel extends Equatable {
-  final int total;
-  final int totalHits;
-  final List<Hit> hits;
-
-  const ImageModel({
-    required this.total,
-    required this.totalHits,
-    required this.hits,
-  });
-
-  factory ImageModel.fromJson(Map<String, dynamic> json) => ImageModel(
-        total: json["total"],
-        totalHits: json["totalHits"],
-        hits: List<Hit>.from(json["hits"].map((x) => Hit.fromJson(x))),
-      );
-
-  @override
-  List<Object?> get props => [
-        total,
-        totalHits,
-        hits,
-      ];
-}
-
-class Hit extends Equatable {
+class ImageEntity extends Equatable {
   final int id;
   final String pageUrl;
   final String type;
@@ -49,7 +24,7 @@ class Hit extends Equatable {
   final String user;
   final String userImageUrl;
 
-  const Hit({
+  const ImageEntity({
     required this.id,
     required this.pageUrl,
     required this.type,
@@ -73,31 +48,6 @@ class Hit extends Equatable {
     required this.user,
     required this.userImageUrl,
   });
-
-  factory Hit.fromJson(Map<String, dynamic> json) => Hit(
-        id: json["id"],
-        pageUrl: json["pageURL"],
-        type: json["type"],
-        tags: json["tags"],
-        previewUrl: json["previewURL"],
-        previewWidth: json["previewWidth"],
-        previewHeight: json["previewHeight"],
-        webformatUrl: json["webformatURL"],
-        webformatWidth: json["webformatWidth"],
-        webformatHeight: json["webformatHeight"],
-        largeImageUrl: json["largeImageURL"],
-        imageWidth: json["imageWidth"],
-        imageHeight: json["imageHeight"],
-        imageSize: json["imageSize"],
-        views: json["views"],
-        downloads: json["downloads"],
-        collections: json["collections"],
-        likes: json["likes"],
-        comments: json["comments"],
-        userId: json["user_id"],
-        user: json["user"],
-        userImageUrl: json["userImageURL"],
-      );
 
   @override
   List<Object?> get props => [

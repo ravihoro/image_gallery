@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery/core/util/helper_functions.dart';
-import 'package:image_gallery/model/image_model.dart';
+import 'package:image_gallery/features/gallery_view/domain/entities/image_entity.dart';
 
 class ImageContainerPreview extends StatelessWidget {
-  final Hit image;
+  final ImageEntity image;
   final void Function() onTap;
 
   const ImageContainerPreview({

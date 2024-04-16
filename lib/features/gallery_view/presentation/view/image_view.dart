@@ -1,10 +1,10 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:image_gallery/model/image_model.dart';
+import 'package:image_gallery/features/gallery_view/domain/entities/image_entity.dart';
 
 class ImageView extends StatelessWidget {
-  final Hit image;
+  final ImageEntity image;
 
   const ImageView({required this.image, super.key});
 

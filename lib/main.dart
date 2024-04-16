@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:image_gallery/core/util/dependency_injection.dart';
-import 'package:image_gallery/view/gallery_view.dart';
+import 'package:image_gallery/features/gallery_view/presentation/view/gallery_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       home: GalleryView(),
     );
   }

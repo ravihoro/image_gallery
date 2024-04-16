@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:image_gallery/core/util/http_service.dart';
-import 'package:image_gallery/model/image_model.dart';
+import 'package:image_gallery/features/gallery_view/domain/entities/image_entity.dart';
+import 'package:image_gallery/features/gallery_view/domain/usecases/image_usecase.dart';
 
 class ImageController extends GetxController {
-  final HttpService httpService = Get.find();
+  final ImageUsecase usecase = Get.find<ImageUsecase>();
 
   var isLoading = false.obs;
 
@@ -11,7 +11,7 @@ class ImageController extends GetxController {
 
   RxInt currentPage = 1.obs;
 
-  List<Hit> images = <Hit>[].obs;
+  List<ImageEntity> images = <ImageEntity>[].obs;
 
   void setIsLoading(bool value) {
     if (currentPage.value == 1) {
@@ -23,11 +23,15 @@ class ImageController extends GetxController {
 
   void fetchImages() async {
     setIsLoading(true);
-    await httpService.getImages(page: currentPage.value).then(
+    await usecase.fetchImages(currentPage.value).then(
           (either) => either.fold(
             (l) {
               setIsLoading(false);
-              Get.snackbar("Error", l.errorMessage);
+              Get.snackbar(
+                "Error",
+                l.errorMessage,
+                snackPosition: SnackPosition.BOTTOM,
+              );
             },
             (r) {
               setIsLoading(false);

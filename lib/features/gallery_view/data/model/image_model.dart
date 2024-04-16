@@ -1,0 +1,53 @@
+import 'package:image_gallery/features/gallery_view/domain/entities/image_entity.dart';
+
+class ImageModel extends ImageEntity {
+  const ImageModel({
+    required super.id,
+    required super.pageUrl,
+    required super.type,
+    required super.tags,
+    required super.previewUrl,
+    required super.previewWidth,
+    required super.previewHeight,
+    required super.webformatUrl,
+    required super.webformatWidth,
+    required super.webformatHeight,
+    required super.largeImageUrl,
+    required super.imageWidth,
+    required super.imageHeight,
+    required super.imageSize,
+    required super.views,
+    required super.downloads,
+    required super.collections,
+    required super.likes,
+    required super.comments,
+    required super.userId,
+    required super.user,
+    required super.userImageUrl,
+  });
+
+  factory ImageModel.fromJson(Map<String, dynamic> json) => ImageModel(
+        id: json["id"],
+        pageUrl: json["pageURL"],
+        type: json["type"],
+        tags: json["tags"],
+        previewUrl: json["previewURL"],
+        previewWidth: json["previewWidth"],
+        previewHeight: json["previewHeight"],
+        webformatUrl: json["webformatURL"],
+        webformatWidth: json["webformatWidth"],
+        webformatHeight: json["webformatHeight"],
+        largeImageUrl: json["largeImageURL"],
+        imageWidth: json["imageWidth"],
+        imageHeight: json["imageHeight"],
+        imageSize: json["imageSize"],
+        views: json["views"],
+        downloads: json["downloads"],
+        collections: json["collections"],
+        likes: json["likes"],
+        comments: json["comments"],
+        userId: json["user_id"],
+        user: json["user"],
+        userImageUrl: json["userImageURL"],
+      );
+}
