@@ -38,6 +38,22 @@ class GalleryView extends StatelessWidget {
 
     _scrollController.addListener(_scrollListener);
 
+    int _getColumnsCount(BuildContext context) {
+      double screenWidth = MediaQuery.of(context).size.width;
+
+      // Determine device type based on screen width
+      if (screenWidth < 600) {
+        // Phone
+        return 2; // Adjust this according to your preference
+      } else if (screenWidth < 1200) {
+        // Tablet
+        return 4; // Adjust this according to your preference
+      } else {
+        // Desktop
+        return 6; // Adjust this according to your preference
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Image Gallery"),
@@ -59,7 +75,7 @@ class GalleryView extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: MasonryGridView.count(
                       controller: _scrollController,
-                      crossAxisCount: numColumns,
+                      crossAxisCount: _getColumnsCount(context),
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
                       itemCount: images.length,
